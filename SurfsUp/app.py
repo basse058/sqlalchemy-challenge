@@ -30,17 +30,22 @@ app = Flask(__name__)
 def welcome():
     
     return (
-        f'<br/>'
-        f'<br/>'
+
         f'<br/>'
         f'Welcome to the SurfsUp API!<br/>'
+        f'<br/>'
+        f'Find dates in the precipitation route so you can look up data on a date or between a range of dates. <br/>'
         f'<br/>'
         f'Available Routes:<br/>'
         f'<br/>'
         f'/api/v1.0/precipitation<br/>'
         f'/api/v1.0/stations<br/>'
         f'/api/v1.0/tobs<br/>'
+        f'<br/>'
+        f'Data from a specific date (adjust date):<br/>'
         f'/api/v1.0/2017-08-23<br/>'
+        f'<br/>'
+        f'Data between a range of dates (adjust dates):<br/>'
         f'/api/v1.0/2010-01-01/2017-08-23<br/>'
     )
 
@@ -72,7 +77,8 @@ def station_list():
 @app.route("/api/v1.0/tobs")
 def tob():
     session = Session(engine)
-    recent_date=dt.datetime.strptime(session.query(Measurement.date).order_by(Measurement.date.desc()).first()[0], '%Y-%m-%d')
+    recent_date=dt.datetime.strptime(session.query(Measurement.date).order_by(Measurement.date.desc())\
+        .first()[0], '%Y-%m-%d')
     last_12_months=recent_date - dt.timedelta(days=365)
     last_12_months=last_12_months.date()
 
